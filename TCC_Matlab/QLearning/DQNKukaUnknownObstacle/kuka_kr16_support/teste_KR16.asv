@@ -1,0 +1,50 @@
+robot = importrobot('kr16_2.urdf');
+robot.DataFormat = 'column';
+
+% clearVisual(robot.Base);
+% clearVisual(robot.getBody('link_1'));
+% clearVisual(robot.getBody('link_2'));
+% clearVisual(robot.getBody('link_3'));
+% clearVisual(robot.getBody('link_4'));
+% clearVisual(robot.getBody('link_5'));
+% clearVisual(robot.getBody('link_6'));
+
+% tform = eul2tform([pi/2, 0, 0], 'XYZ');
+% addVisual(robot.Base, "Mesh", 'base_link.stl', tform);
+% tform = eul2tform([pi/2, 0, 0], 'XYZ');
+% addVisual(robot.getBody('link_1'), "Mesh", 'link_1.stl', tform);
+% tform = eul2tform([pi/2, 0, 0], 'XYZ')*eul2tform([0, 0, pi/2], 'XYZ');
+% addVisual(robot.getBody('link_2'), "Mesh", 'link_2.stl', tform);
+% tform = eul2tform([pi/2, 0, 0], 'XYZ');
+% addVisual(robot.getBody('link_3'), "Mesh", 'link_3.stl', tform);
+% tform = eul2tform([pi/2, 0, 0], 'XYZ');
+% addVisual(robot.getBody('link_4'), "Mesh", 'link_4.stl', tform);
+% tform = eul2tform([pi/2, 0, 0], 'XYZ');
+% addVisual(robot.getBody('link_5'), "Mesh", 'link_5.stl', tform);
+% tform = eul2tform([pi/2, 0, 0], 'XYZ');
+% addVisual(robot.getBody('link_6'), "Mesh", 'link_6.stl', tform);
+
+figure(1)
+axis = show(robot);
+
+axis.XLim = [- 2];
+axis.YLim = [-2 2];
+axis.ZLim = [-2 2];
+hold on
+
+Q = robot.homeConfiguration;
+show(robot,Q);
+hold on
+for i = Q(1,1):0.1:robot.getBody('link_1').Joint.PositionLimits(2)
+    q = [i; 0.1*i; -0.6*i; 0; 0; 0];
+    show(robot, q, 'PreservePlot', false);
+    pause(0.000000001)
+end
+
+for i = robot.getBody('link_1').Joint.PositionLimits(2):-0.1:Q(1,1)
+    q = [i; 0.1*i; -0.6*i; 0; 0; 0];
+    show(robot, q, 'PreservePlot', false);
+    pause(0.000000001)
+end
+
+hold off
